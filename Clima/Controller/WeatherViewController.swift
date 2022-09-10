@@ -34,13 +34,14 @@ class WeatherViewController: UIViewController{
         weatherManager.delegate = self
     }
     
+    
     @IBAction func locationPress(_ sender: Any) {
 //        locationManager.startUpdatingLocation()
         let status = CLLocationManager.authorizationStatus()
 
             if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
                 // show alert to user telling them they need to allow location data to use some feature of your app
-                
+                showAlertMessage()
                 print("show alert to user telling them they need to allow location data to use some feature of your app")
                 return
             }
@@ -159,5 +160,54 @@ extension WeatherViewController: CLLocationManagerDelegate {
             print("other error:", error.localizedDescription)
         }
     }
-}
+    
+    func showAlertMessage() {
 
+        // create the alert
+        let alert = UIAlertController(title: "Notice", message: "Please allow location to check weather of where you are", preferredStyle: UIAlertController.Style.alert)
+
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Go to settings", style: UIAlertAction.Style.default, handler: { action in
+                        switch action.style{
+                        case .default:
+            
+                            print("default")
+                            self.redirectToAppLocationSettings()
+                        case .cancel:
+                            print("cancel")
+            
+                        case .destructive:
+                            print("destructive")
+                        }
+                    }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+        
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//            switch action.style{
+//            case .default:
+//
+//                print("default")
+//                self.redirectToAppLocationSettings()
+//            case .cancel:
+//                print("cancel")
+//
+//            case .destructive:
+//                print("destructive")
+//            }
+//        }))
+    }
+    
+//     This will open your app settings in settings App
+    func redirectToAppLocationSettings(){
+        let url = URL(string:UIApplication.openSettingsURLString)
+        if UIApplication.shared.canOpenURL(url!){
+    // can open succeeded.. opening the url
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        }
+    }
+    
+}
