@@ -13,47 +13,65 @@ class WeatherViewController: UIViewController{
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
-    
     var weatherManager = WeatherManager()
     var locationManager = CLLocationManager()
     
+    @IBOutlet weak var messageWhenNoWeatherHasBeenDisplayed: UILabel!
+    
+    @IBOutlet weak var degreeSymbol: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        showScreeenWhenNoWeatherHasBeenDisplayed()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-//        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
         if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
 //                locationManager.requestLocation()
             locationManager.startUpdatingLocation()
             // Higher accuracy will require longer time to retrieve location data
             locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-            }
+        }
+        
         
         searchTextField.delegate = self
         weatherManager.delegate = self
+    }
+    func showScreeenWhenNoWeatherHasBeenDisplayed (){
+        conditionImageView.image = nil
+        temperatureLabel.text = ""
+        cityLabel.text = ""
+        messageWhenNoWeatherHasBeenDisplayed.text = "Please enter location to see weather"
+        degreeSymbol.text = ""    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
+            messageWhenNoWeatherHasBeenDisplayed.text = ""
+            locationManager.startUpdatingLocation()
+        }
     }
     
     
     @IBAction func locationPress(_ sender: Any) {
 //        locationManager.startUpdatingLocation()
-        let status = CLLocationManager.authorizationStatus()
+//        let status = CLLocationManager.authorizationStatus()
 
-            if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
+//            if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
+            if(CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted || !CLLocationManager.locationServicesEnabled()){
                 // show alert to user telling them they need to allow location data to use some feature of your app
-                showAlertMessage()
-                print("show alert to user telling them they need to allow location data to use some feature of your app")
-                return
-            }
+                showAskingLocationPermissionMessage()
+            } else if (CLLocationManager.authorizationStatus() == .notDetermined){
+//            if haven't show location permission dialog before, show it to user
+            locationManager.requestWhenInUseAuthorization()
 
-            // if haven't show location permission dialog before, show it to user
-            if(status == .notDetermined){
-                locationManager.requestWhenInUseAuthorization()
+            // if you want the app to retrieve location data even in background, use requestAlwaysAuthorization
+            // locationManager.requestAlwaysAuthorization()
+            return
+        } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways ){
+            locationManager.startUpdatingLocation()
+        }
+        
 
-                // if you want the app to retrieve location data even in background, use requestAlwaysAuthorization
-                // locationManager.requestAlwaysAuthorization()
-                return
-            }
+            
             
             // at this point the authorization status is authorized
             // request location data once
@@ -89,6 +107,7 @@ extension WeatherViewController: UITextFieldDelegate {
             weatherManager.fetchWeather(cityName: city)
         }
         searchTextField.text = ""
+        messageWhenNoWeatherHasBeenDisplayed.text = ""
     }
 }
 
@@ -98,6 +117,7 @@ extension WeatherViewController: WeatherManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
+            self.messageWhenNoWeatherHasBeenDisplayed.text = ""
         }
     }
     
@@ -160,8 +180,9 @@ extension WeatherViewController: CLLocationManagerDelegate {
             print("other error:", error.localizedDescription)
         }
     }
+
     
-    func showAlertMessage() {
+    func showAskingLocationPermissionMessage() {
 
         // create the alert
         let alert = UIAlertController(title: "Notice", message: "Please allow location to check weather of where you are", preferredStyle: UIAlertController.Style.alert)
