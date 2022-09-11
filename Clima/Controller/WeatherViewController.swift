@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+
 class WeatherViewController: UIViewController{
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -18,7 +19,14 @@ class WeatherViewController: UIViewController{
     
     @IBOutlet weak var messageWhenNoWeatherHasBeenDisplayed: UILabel!
     @IBOutlet weak var degreeSymbol: UILabel!
-    @IBOutlet weak var loadingSpinner: UIActivityIndicatorView!
+
+    let loadingSpinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        return spinner
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         showScreeenWhenNoWeatherHasBeenDisplayed()
@@ -33,15 +41,23 @@ class WeatherViewController: UIViewController{
         }
         
         view.addSubview(loadingSpinner)
+        
+        NSLayoutConstraint.activate([
+            loadingSpinner.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            loadingSpinner.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+        
         searchTextField.delegate = self
         weatherManager.delegate = self
     }
-    func showScreeenWhenNoWeatherHasBeenDisplayed (){
+    
+    func showScreeenWhenNoWeatherHasBeenDisplayed () {
         conditionImageView.image = nil
         temperatureLabel.text = ""
         cityLabel.text = ""
         messageWhenNoWeatherHasBeenDisplayed.text = "Please enter location to see weather"
-        degreeSymbol.text = ""    }
+        degreeSymbol.text = ""
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
@@ -50,16 +66,15 @@ class WeatherViewController: UIViewController{
         }
     }
     
-    
     @IBAction func locationPress(_ sender: Any) {
 //        locationManager.startUpdatingLocation()
 //        let status = CLLocationManager.authorizationStatus()
 
 //            if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
-            if(CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted || !CLLocationManager.locationServicesEnabled()){
+        if(CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted || !CLLocationManager.locationServicesEnabled()){
                 // show alert to user telling them they need to allow location data to use some feature of your app
                 showAskingLocationPermissionMessage()
-            } else if (CLLocationManager.authorizationStatus() == .notDetermined){
+        } else if (CLLocationManager.authorizationStatus() == .notDetermined){
 //            if haven't show location permission dialog before, show it to user
             locationManager.requestWhenInUseAuthorization()
 
@@ -69,10 +84,6 @@ class WeatherViewController: UIViewController{
         } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways ){
             locationManager.startUpdatingLocation()
         }
-        
-
-            
-            
             // at this point the authorization status is authorized
             // request location data once
             locationManager.startUpdatingLocation()
