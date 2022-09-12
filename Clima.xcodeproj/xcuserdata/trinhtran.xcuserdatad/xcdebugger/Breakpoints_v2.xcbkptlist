@@ -7,172 +7,191 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1FF753BA-915F-4FE6-9228-D42DB959622C"
-            shouldBeEnabled = "Yes"
+            uuid = "84F5D668-DC43-4649-83B7-E06D7B12DE90"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Clima/Controller/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "locationPress(_:)"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
+            landmarkName = "textFieldDidEndEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8AB2391B-300E-494F-8651-92DE8D2E7D8E"
+            uuid = "CF654E53-73DE-45CF-BF88-21DEC826AE4E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Clima/Controller/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "locationPress(_:)"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "textFieldDidEndEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7DEE9965-D513-412C-AB87-C6E00DFC231B"
+            uuid = "A1E50A9F-5CFF-4F53-A253-E7E9250B2229"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Clima/Controller/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
-            landmarkName = "showAskingLocationPermissionMessage()"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "textFieldDidEndEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "338E2E90-ED3C-4EDE-977D-83C2B2517F14"
+            uuid = "D9A52CD0-1EB7-4C12-8B68-D85011DCA429"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Clima/Controller/WeatherViewController.swift"
+            filePath = "Clima/WeatherManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
-            landmarkName = "showAskingLocationPermissionMessage()"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "fetchWeather(cityName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6E46B988-CA7F-48B0-A2E8-A228C9D76530"
+            uuid = "45A2B858-54EE-49CA-9204-971200F15117"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Clima/Controller/WeatherViewController.swift"
+            filePath = "Clima/WeatherManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "locationPress(_:)"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "fetchWeather(cityName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39"
+            uuid = "3699F4AA-962F-48C7-80D8-9C96C7924DB0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "performRequest(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "959C85A0-65F7-4D24-BEEB-4DBB7989412C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "performRequest(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C164516E-CC21-4881-96FD-06709D73390D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Clima/Controller/WeatherViewController.swift"
+            filePath = "Clima/WeatherManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10"
-            endingLineNumber = "10"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "performRequest(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "41F1D5C8-CDA6-4C75-8EA2-FDE161FDE1EA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "performRequest(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "621E7EDA-D5B9-4312-89E4-A62A1C37EB49"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "performRequest(with:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39 - 91c97591db19c412"
+                  uuid = "621E7EDA-D5B9-4312-89E4-A62A1C37EB49 - 3a13e54603df9f58"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Clima.WeatherViewController.__allocating_init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; Clima.WeatherViewController"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Clima.WeatherManager.performRequest(with: Swift.String) -&gt; ()"
                   moduleName = "Clima"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/Controller/WeatherViewController.swift"
+                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/WeatherManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "28">
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "704">
                </Location>
                <Location
-                  uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39 - 67e1092d7cb6e676"
+                  uuid = "621E7EDA-D5B9-4312-89E4-A62A1C37EB49 - 3a13e54603df9f58"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Clima.WeatherViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; Clima.WeatherViewController"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Clima.WeatherManager.performRequest(with: Swift.String) -&gt; ()"
                   moduleName = "Clima"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/Controller/WeatherViewController.swift"
+                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/WeatherManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "144">
-               </Location>
-               <Location
-                  uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39 - 2001a5c2bb21a994"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Clima.WeatherViewController.__allocating_init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Clima.WeatherViewController&gt;"
-                  moduleName = "Clima"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/Controller/WeatherViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39 - 89dae3b1d0b95c7c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Clima.WeatherViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Clima.WeatherViewController&gt;"
-                  moduleName = "Clima"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/Controller/WeatherViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "120">
-               </Location>
-               <Location
-                  uuid = "7903BFD7-E550-47B9-A7F6-0FF24B3DCD39 - 2a994c2f90980608"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Clima.WeatherViewController.__deallocating_deinit"
-                  moduleName = "Clima"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/trinhtran/Desktop/Clima-iOS13/Clima/Controller/WeatherViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "11"
-                  endingLineNumber = "11"
-                  offsetFromSymbolStart = "0">
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "807">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -180,16 +199,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "724F55D9-8E20-4C7A-8DB0-DB04A7BAF860"
+            uuid = "FC867D9A-434B-4C5E-928A-98E446822D3F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Clima/Controller/WeatherViewController.swift"
+            filePath = "Clima/WeatherManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "didUpdateWeather(_:weather:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "parseJSON(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B6C8E822-5444-4FC4-9BB5-916C2BDD0B64"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "parseJSON(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "99ACFE65-47C4-4093-9BA3-F99057871760"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/WeatherManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "fetchWeather(latitude:longitude:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

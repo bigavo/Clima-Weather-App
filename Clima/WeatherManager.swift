@@ -28,15 +28,8 @@ struct WeatherManager {
         performRequest(with: urlString)
     }
     func performRequest(with urlString: String){
-        //1. Create a URL
-        
         if let url = URL(string: urlString)  {
-            //2. Create a URLSession
             let session = URLSession(configuration: .default)
-            
-            
-            //3. Give the session a task
-            
             let task = session.dataTask(with: url) { (data, resonse, error) in
                 if error != nil {
                     self.delegate?.didFailWithError(error: error!)
@@ -48,7 +41,6 @@ struct WeatherManager {
                     }
                 }
             }
-            //4. Start the task        }
             task.resume()
         }
     }
@@ -57,8 +49,6 @@ struct WeatherManager {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
-            //            let decodedData.main.temp)
-            //            print(decodedData.weather[0].description)
             let id = decodedData.weather[0].id
             let temp = decodedData.main.temp
             let name = decodedData.name
