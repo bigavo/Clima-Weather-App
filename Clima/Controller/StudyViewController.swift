@@ -76,6 +76,24 @@ class StudyViewController: UIViewController {
 
 
 
+//
+//func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//    print("location manager authorization status changed")
+//    switch status {
+//    case .authorizedAlways:
+//       print("user allow app to get location data when app is active or in background")
+//    case .authorizedWhenInUse:
+//       print("user allow app to get location data only when app is active")
+//    case .denied:
+//       print("user tap 'disallow' on the permission dialog, cant get location data")
+//    case .restricted:
+//       print("parental control setting disallow location data")
+//    case .notDetermined:
+//       print("the location permission dialog haven't shown before, user haven't tap allow/disallow")
+//    }
+//}
+
+
 
 //
 //   

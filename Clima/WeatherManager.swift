@@ -7,13 +7,16 @@ protocol WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
     func didFailWithError(error: Error)
 }
+
+enum WeatherFetchingError: Error {
+    case locationNotRecognised
+}
 struct WeatherManager {
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=7549ea880eeb3148174fc5b66c759e20&units=metric"
     var delegate: WeatherManagerDelegate?
     
     func fetchWeather (cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"
-        print(urlString)
         performRequest(with: urlString)
     }
     
@@ -27,8 +30,8 @@ struct WeatherManager {
         if let url = URL(string: urlString)  {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, resonse, error) in
-                if error != nil {
-                    self.delegate?.didFailWithError(error: error!)
+                if let urlErr = error{
+                    self.delegate?.didFailWithError(error: urlErr)
                     return
                 }
                 if let safeData = data {
@@ -38,6 +41,8 @@ struct WeatherManager {
                 }
             }
             task.resume()
+        } else {
+                self.delegate?.didFailWithError(error: WeatherFetchingError.locationNotRecognised)
         }
     }
     

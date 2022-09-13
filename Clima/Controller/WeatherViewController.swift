@@ -111,6 +111,13 @@ class WeatherViewController: UIViewController{
         return message
     }()
     
+    var errorMessage: UILabel = {
+        let errMessage = UILabel()
+        errMessage.text = ""
+        errMessage.translatesAutoresizingMaskIntoConstraints = false
+        return errMessage
+    }()
+    
     let loadingSpinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -145,6 +152,24 @@ class WeatherViewController: UIViewController{
             background.topAnchor.constraint(equalTo: self.view.topAnchor),
             background.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+        view.addSubview(loadingSpinner)
+        NSLayoutConstraint.activate([
+            loadingSpinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingSpinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        view.addSubview(errorMessage)
+        NSLayoutConstraint.activate([
+            errorMessage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorMessage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            background.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            background.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            background.topAnchor.constraint(equalTo: self.view.topAnchor),
+            background.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
         
         view.addSubview(messageWhenNoWeatherHasBeenDisplayed)
         NSLayoutConstraint.activate([
@@ -158,7 +183,7 @@ class WeatherViewController: UIViewController{
         NSLayoutConstraint.activate([
             searchBarStackView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             searchBarStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-            searchBarStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
+            searchBarStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor, constant: 10)
         ])
         
         searchBarStackView.addArrangedSubview(locationButton)
@@ -194,11 +219,23 @@ class WeatherViewController: UIViewController{
         weatherInfoStackView.addArrangedSubview(cityLabel)
     }
     
-    private func showScreeenWhenNoWeatherHasBeenDisplayed() {
+    private func clearView(){
         conditionImageView.image = nil
         temperatureLabel.text = ""
         cityLabel.text = ""
+        messageWhenNoWeatherHasBeenDisplayed.text = ""
+        errorMessage.text = ""
+    }
+    
+    private func showScreeenWhenNoWeatherHasBeenDisplayed() {
+        clearView()
         messageWhenNoWeatherHasBeenDisplayed.text = "Please enter location to see weather"
+    }
+    
+    private func showErrorMessage() {
+        clearView()
+        self.errorMessage.text = "Sorry, we can not find the location"
+        loadingSpinner.stopAnimating()
     }
     
     private func configureWeatherManager() {
@@ -255,12 +292,16 @@ class WeatherViewController: UIViewController{
 //MARK: - WeatherManagerDelegate
 
 extension WeatherViewController: WeatherManagerDelegate {
+    
     func didFailWithError(error: Error) {
-        
+        DispatchQueue.main.async {
+            self.showErrorMessage()
+        }
     }
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
+            self.clearView()
             self.loadingSpinner.startAnimating()
             self.temperatureLabel.text = "\(weather.temperatureString)°C"
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
@@ -286,6 +327,7 @@ extension WeatherViewController: UITextFieldDelegate {
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if searchTextField.text != "" {
+            self.clearView()
             return true
         } else {
             textField.placeholder = "type something"
@@ -293,10 +335,12 @@ extension WeatherViewController: UITextFieldDelegate {
         }
     }
     
+    
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
-            loadingSpinner.startAnimating()
+            self.loadingSpinner.startAnimating()
         }
         searchTextField.text = ""
         messageWhenNoWeatherHasBeenDisplayed.text = ""
@@ -326,22 +370,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
             }
         } else {
             print("other error:", error.localizedDescription)
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("location manager authorization status changed")
-        switch status {
-        case .authorizedAlways:
-           print("user allow app to get location data when app is active or in background")
-        case .authorizedWhenInUse:
-           print("user allow app to get location data only when app is active")
-        case .denied:
-           print("user tap 'disallow' on the permission dialog, cant get location data")
-        case .restricted:
-           print("parental control setting disallow location data")
-        case .notDetermined:
-           print("the location permission dialog haven't shown before, user haven't tap allow/disallow")
         }
     }
 }
