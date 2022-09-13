@@ -68,7 +68,6 @@ class WeatherViewController: UIViewController{
         let verticalWeatherStackview = UIStackView()
         verticalWeatherStackview.axis = .vertical
         verticalWeatherStackview.translatesAutoresizingMaskIntoConstraints = false
-//        verticalWeatherStackview.distribution = .
         verticalWeatherStackview.backgroundColor = UIColor.clear
         verticalWeatherStackview.spacing = 2
         verticalWeatherStackview.alignment = .trailing
@@ -112,18 +111,30 @@ class WeatherViewController: UIViewController{
         return message
     }()
     
+    let loadingSpinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        return spinner
+    }()
+
     var weatherManager = WeatherManager()
     var locationManager = CLLocationManager()
     
     //MARK: Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
         configureWeatherManager()
         configureLocationManager()
         self.searchTextField.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
+           messageWhenNoWeatherHasBeenDisplayed.text = ""
+           locationManager.startUpdatingLocation()
+       }
+   }
     
     // MARK: Helpers
     private func setupViews() {
@@ -195,13 +206,53 @@ class WeatherViewController: UIViewController{
     }
     
     private func configureLocationManager(){
+        self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
             self.locationManager.startUpdatingLocation()
             self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         }
     }
+    
+    private func showAskingLocationPermissionMessage() {
+        let alert = UIAlertController(title: "Notice", message: "Please allow location to check weather of where you are", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Go to settings", style: UIAlertAction.Style.default, handler: { action in
+            switch action.style{
+            case .default:
+                print("default")
+                self.redirectToAppLocationSettings()
+            case .cancel:
+                print("cancel")
+            case .destructive:
+                print("destructive")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func redirectToAppLocationSettings(){
+        let url = URL(string:UIApplication.openSettingsURLString)
+        if UIApplication.shared.canOpenURL(url!){
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        }
+    }
+    
+    @objc func locationButtonPressed() {
+        let status = CLLocationManager.authorizationStatus()
+        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
+            showAskingLocationPermissionMessage()
+        } else if (CLLocationManager.authorizationStatus() == .notDetermined){
+            locationManager.requestWhenInUseAuthorization()
+            return
+        } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways ){
+            locationManager.startUpdatingLocation()
+            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        }
+    }
 }
+
+//MARK: - WeatherManagerDelegate
 
 extension WeatherViewController: WeatherManagerDelegate {
     func didFailWithError(error: Error) {
@@ -210,15 +261,17 @@ extension WeatherViewController: WeatherManagerDelegate {
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
-//            self.loadingSpinner.startAnimating()
+            self.loadingSpinner.startAnimating()
             self.temperatureLabel.text = "\(weather.temperatureString)°C"
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
             self.messageWhenNoWeatherHasBeenDisplayed.text = ""
-//            self.loadingSpinner.stopAnimating()
+            self.loadingSpinner.stopAnimating()
         }
     }
 }
+
+//MARK: - UITextFieldDelegate
 
 extension WeatherViewController: UITextFieldDelegate {
     
@@ -243,22 +296,17 @@ extension WeatherViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
-//            loadingSpinner.startAnimating()
+            loadingSpinner.startAnimating()
         }
         searchTextField.text = ""
         messageWhenNoWeatherHasBeenDisplayed.text = ""
     }
 }
+//MARK: - CLLocationManagerDelegate
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        locationManager.stopUpdatingLocation()
-//        if let location = locations.last {
-
-//        }
-//        locationManager.stopUpdatingLocation()
-//        weatherManager.delegate = nil
-//        print(locations)
+        locationManager.stopUpdatingLocation()
         if let location = locations.last {
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
@@ -266,11 +314,18 @@ extension WeatherViewController: CLLocationManagerDelegate {
         }
     }
     
-    @objc func locationButtonPressed() {
-        if(CLLocationManager.authorizationStatus() ==
-            .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
-            locationManager.startUpdatingLocation()
-            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let clErr = error as? CLError {
+            switch clErr {
+            case CLError.locationUnknown:
+                print("Sorry, we can not find location")
+            case CLError.denied:
+                print("denied")
+            default:
+                print("Other Core Location error")
+            }
+        } else {
+            print("other error:", error.localizedDescription)
         }
     }
     

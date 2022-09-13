@@ -1,10 +1,4 @@
-//
-//  WeatherManager.swift
-//  Clima
-//
-//  Created by Trinh Tran on 30.8.2022.
-//  Copyright © 2022 App Brewery. All rights reserved.
-//
+
 
 import Foundation
 import CoreLocation
@@ -15,18 +9,20 @@ protocol WeatherManagerDelegate {
 }
 struct WeatherManager {
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=7549ea880eeb3148174fc5b66c759e20&units=metric"
-    
     var delegate: WeatherManagerDelegate?
     
     func fetchWeather (cityName: String){
         let urlString = "\(weatherURL)&q=\(cityName)"
+        print(urlString)
         performRequest(with: urlString)
     }
+    
     func fetchWeather(latitude: CLLocationDegrees , longitude: CLLocationDegrees ) {
         let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
          print(urlString)
         performRequest(with: urlString)
     }
+    
     func performRequest(with urlString: String){
         if let url = URL(string: urlString)  {
             let session = URLSession(configuration: .default)
@@ -52,7 +48,6 @@ struct WeatherManager {
             let id = decodedData.weather[0].id
             let temp = decodedData.main.temp
             let name = decodedData.name
-            
             let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
             return weather
         } catch {
