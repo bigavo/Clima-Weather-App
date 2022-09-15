@@ -134,6 +134,7 @@ class WeatherViewController: UIViewController{
         configureWeatherManager()
         configureLocationManager()
         self.searchTextField.delegate = self
+        self.hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -287,6 +288,16 @@ class WeatherViewController: UIViewController{
             locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         }
     }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(WeatherViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+            view.endEditing(true)
+        }
 }
 
 //MARK: - WeatherManagerDelegate
@@ -322,6 +333,7 @@ extension WeatherViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         print(searchTextField.text!)
+        searchButtonPressed(searchButton)
         return true
     }
 
@@ -373,3 +385,5 @@ extension WeatherViewController: CLLocationManagerDelegate {
         }
     }
 }
+
+
