@@ -125,7 +125,7 @@ class WeatherViewController: UIViewController{
         return spinner
     }()
 
-    var weatherManager = WeatherManager()
+    var weatherManager = WeatherManager(urlSession: URLSession.shared)
     var locationManager = CLLocationManager()
     
     //MARK: Life cycles
@@ -136,6 +136,7 @@ class WeatherViewController: UIViewController{
         configureLocationManager()
         self.searchTextField.delegate = self
         self.hideKeyboardWhenTappedAround()
+        showScreeenWhenNoWeatherHasBeenDisplayed()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,8 +179,6 @@ class WeatherViewController: UIViewController{
             messageWhenNoWeatherHasBeenDisplayed.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             messageWhenNoWeatherHasBeenDisplayed.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100)
         ])
-        
-        showScreeenWhenNoWeatherHasBeenDisplayed()
         
         self.view.addSubview(searchBarStackView)
         NSLayoutConstraint.activate([
