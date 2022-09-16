@@ -2,6 +2,7 @@
 
 import UIKit
 import CoreLocation
+import os
 
 class WeatherViewController: UIViewController{
     // MARK: Properties
@@ -263,6 +264,8 @@ class WeatherViewController: UIViewController{
                 print("cancel")
             case .destructive:
                 print("destructive")
+            @unknown default:
+                fatalError("Not supported")
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
@@ -277,6 +280,7 @@ class WeatherViewController: UIViewController{
     }
     
     @objc func locationButtonPressed() {
+        logger.debug("Location Button Pressed")
         let status = CLLocationManager.authorizationStatus()
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
             showAskingLocationPermissionMessage()
@@ -320,6 +324,7 @@ extension WeatherViewController: WeatherManagerDelegate {
             self.messageWhenNoWeatherHasBeenDisplayed.text = ""
             self.loadingSpinner.stopAnimating()
         }
+        logger.info("weather info updated")
     }
 }
 
@@ -328,6 +333,7 @@ extension WeatherViewController: WeatherManagerDelegate {
 extension WeatherViewController: UITextFieldDelegate {
     
     @objc func searchButtonPressed(_ sender: UIButton) {
+        logger.info("Search button pressed \(String(describing: searchTextField.text))")
         self.searchTextField.endEditing(true)
     }
 
@@ -346,8 +352,6 @@ extension WeatherViewController: UITextFieldDelegate {
             return false
         }
     }
-    
-    
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let city = searchTextField.text {
@@ -371,19 +375,20 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        
         if let clErr = error as? CLError {
             switch clErr {
             case CLError.locationUnknown:
-                print("Sorry, we can not find location")
+                logger.error("Location unknown")
             case CLError.denied:
-                print("denied")
+                logger.error("Location denied")
+                
             default:
-                print("Other Core Location error")
+                logger.error("Other Core Location error")
             }
         } else {
-            print("other error:", error.localizedDescription)
+            logger.error("Other error: \(error.localizedDescription)")
         }
     }
 }
-
 
