@@ -7,18 +7,19 @@
 //
 
 import Foundation
-struct WeatherData: Codable {
-    let name: String
-    let main: Main
-    let weather: [Weather]
+
+public struct WeatherData: Codable {
+    public let name: String
+    public let main: Main
+    public let weather: [Weather]
 }
 
-struct Main: Codable {
-    let temp: Double
+public struct Main: Codable {
+    public let temp: Double
 }
 
-struct Weather: Codable {
-    let description: String
-    let id: Int
-    }
+public struct Weather: Codable {
+    public let description: String
+    public let id: Int
+}
 

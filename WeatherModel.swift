@@ -1,15 +1,17 @@
 
 
 import Foundation
-struct WeatherModel {
-    let conditionId: Int
-    let cityName: String
-    let temperature: Double
 
-    var temperatureString: String {
+public struct WeatherModel {
+    public let conditionId: Int
+    public let cityName: String
+    public let temperature: Double
+
+    public var temperatureString: String {
         return String(format: "%.1f", temperature)
     }
-    var conditionName: String{
+    
+    public var conditionName: String{
         switch  conditionId {
         case 200...232:
             return "cloud.bolt"

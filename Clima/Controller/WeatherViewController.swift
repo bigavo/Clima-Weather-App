@@ -125,7 +125,7 @@ class WeatherViewController: UIViewController{
         return spinner
     }()
 
-    var weatherManager = WeatherManager(urlSession: URLSession.shared)
+    var weatherManager = WeatherManager(urlSessionProtocol: URLSession.shared)
     var locationManager = CLLocationManager()
     
     //MARK: Life cycles
@@ -243,10 +243,10 @@ class WeatherViewController: UIViewController{
         self.weatherManager.delegate = self
     }
     
-    private func configureLocationManager(){
+    private func configureLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
+        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
             self.locationManager.startUpdatingLocation()
             self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         }

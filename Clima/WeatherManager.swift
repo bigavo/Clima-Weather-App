@@ -11,43 +11,46 @@ protocol WeatherManagerDelegate {
 enum WeatherFetchingError: Error {
     case locationNotRecognised
 }
-struct WeatherManager {
+
+public struct WeatherManager {
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=7549ea880eeb3148174fc5b66c759e20&units=metric"
     var delegate: WeatherManagerDelegate?
     
-    private let urlSession: URLSession
+    private let urlSessionProtocol: URLSessionProtocol
     
-    init(urlSession: URLSession) {
-        self.urlSession = urlSession
+    public init(urlSessionProtocol: URLSessionProtocol) {
+        self.urlSessionProtocol = urlSessionProtocol
     }
     
-    func fetchWeather (cityName: String){
+    public func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
         performRequest(with: urlString)
     }
     
-    func fetchWeather(latitude: CLLocationDegrees , longitude: CLLocationDegrees ) {
+    public func fetchWeather(latitude: CLLocationDegrees , longitude: CLLocationDegrees ) {
         let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
          print(urlString)
         performRequest(with: urlString)
     }
     
-    func performRequest(with urlString: String){
+    public func performRequest(with urlString: String) {
         if let url = URL(string: urlString)  {
-            let task = self.urlSession.dataTask(with: url) { (data, resonse, error) in
+            let task = self.urlSessionProtocol.dataTask(with: url) { (data, resonse, error) in
                 if let urlErr = error{
                     self.delegate?.didFailWithError(error: urlErr)
                     return
                 }
+                
                 if let safeData = data {
                     if let weather = self.parseJSON(safeData) {
                         self.delegate?.didUpdateWeather(self, weather: weather)
                     }
                 }
             }
+            
             task.resume()
         } else {
-                self.delegate?.didFailWithError(error: WeatherFetchingError.locationNotRecognised)
+            self.delegate?.didFailWithError(error: WeatherFetchingError.locationNotRecognised)
         }
     }
     
