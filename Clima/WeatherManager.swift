@@ -24,7 +24,10 @@ public struct WeatherManager {
     
     public func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
-        performRequest(with: urlString)
+        let allowedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        if let allowedUrl = allowedUrlString {
+            performRequest(with: allowedUrl)
+        }
     }
     
     public func fetchWeather(latitude: CLLocationDegrees , longitude: CLLocationDegrees ) {
