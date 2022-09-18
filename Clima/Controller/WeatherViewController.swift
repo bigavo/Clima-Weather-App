@@ -189,8 +189,8 @@ class WeatherViewController: UIViewController{
         
         searchBarStackView.addArrangedSubview(locationButton)
         NSLayoutConstraint.activate([
-            locationButton.widthAnchor.constraint(equalToConstant: 50),
-            locationButton.heightAnchor.constraint(equalToConstant: 50)
+//            locationButton.widthAnchor.constraint(equalToConstant: 50),
+//            locationButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         searchBarStackView.addArrangedSubview(searchTextField)
@@ -200,18 +200,15 @@ class WeatherViewController: UIViewController{
             searchButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         
-        searchTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
         self.view.addSubview(weatherInfoStackView)
         NSLayoutConstraint.activate([
             weatherInfoStackView.topAnchor.constraint(equalTo: searchBarStackView.bottomAnchor, constant: 30),
-            weatherInfoStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+            weatherInfoStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor, constant: -10),
             weatherInfoStackView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -100)
         ])
         
         weatherInfoStackView.addArrangedSubview(conditionImageView)
         NSLayoutConstraint.activate([
-            conditionImageView.trailingAnchor.constraint(equalTo: weatherInfoStackView.trailingAnchor, constant: -10),
             conditionImageView.widthAnchor.constraint(equalToConstant: 100),
             conditionImageView.heightAnchor.constraint(equalToConstant: 100)
         ])
@@ -251,18 +248,8 @@ class WeatherViewController: UIViewController{
     
     private func showAskingLocationPermissionMessage() {
         let alert = UIAlertController(title: "Notice", message: "Please allow location to check weather of where you are", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Go to settings", style: UIAlertAction.Style.default, handler: { action in
-            switch action.style{
-            case .default:
-                print("default")
-                self.redirectToAppLocationSettings()
-            case .cancel:
-                print("cancel")
-            case .destructive:
-                print("destructive")
-            @unknown default:
-                fatalError("Not supported")
-            }
+        alert.addAction(UIAlertAction(title: "Go to settings", style: UIAlertAction.Style.default, handler: { _ in
+            self.redirectToAppLocationSettings()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -353,7 +340,7 @@ extension WeatherViewController: UITextFieldDelegate {
             weatherManager.fetchWeather(cityName: city)
             self.loadingSpinner.startAnimating()
             if let searchText = searchTextField.text {
-                logger.info("Search button pressed with text: \(searchText)")
+                logger.info("Search button pressed \(searchText)")
             }
         }
         searchTextField.text = ""
