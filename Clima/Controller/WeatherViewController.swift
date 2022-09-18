@@ -6,16 +6,6 @@ import os
 
 class WeatherViewController: UIViewController{
     // MARK: Properties
-    // Testing text label
-    var helloWorldTest: UILabel = {
-        let someText = UILabel()
-        someText.text = "21"
-        someText.translatesAutoresizingMaskIntoConstraints = false
-        someText.font = UIFont.preferredFont(forTextStyle: .headline)
-        someText.numberOfLines = 0
-        return someText
-    }()
-    
     var locationButton: UIButton = {
         let currentLocationButton = UIButton(type: .system)
         currentLocationButton.setImage(UIImage(systemName: "location.circle.fill"), for: .normal)
@@ -87,7 +77,6 @@ class WeatherViewController: UIViewController{
 
     var temperatureLabel: UILabel = {
         let tempNumberLable = UILabel()
-        tempNumberLable.text = "21°C"
         tempNumberLable.font = UIFont.systemFont(ofSize: 72)
         tempNumberLable.translatesAutoresizingMaskIntoConstraints = false
         tempNumberLable.numberOfLines = 0
@@ -96,7 +85,6 @@ class WeatherViewController: UIViewController{
     
     var cityLabel: UILabel = {
         let cityNameLable = UILabel()
-        cityNameLable.text = "Helsinki"
         cityNameLable.translatesAutoresizingMaskIntoConstraints = false
         cityNameLable.font = UIFont.systemFont(ofSize: 36)
         cityNameLable.numberOfLines = 0
@@ -107,7 +95,6 @@ class WeatherViewController: UIViewController{
         let message = UILabel()
         message.text = "Please provide location to check weather"
         message.translatesAutoresizingMaskIntoConstraints = false
-        message.numberOfLines = 0
         message.font = UIFont.preferredFont(forTextStyle: .headline)
         return message
     }()
@@ -188,11 +175,6 @@ class WeatherViewController: UIViewController{
         ])
         
         searchBarStackView.addArrangedSubview(locationButton)
-        NSLayoutConstraint.activate([
-//            locationButton.widthAnchor.constraint(equalToConstant: 50),
-//            locationButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
         searchBarStackView.addArrangedSubview(searchTextField)
         searchBarStackView.addArrangedSubview(searchButton)
         NSLayoutConstraint.activate([
@@ -265,9 +247,9 @@ class WeatherViewController: UIViewController{
     @objc func locationButtonPressed() {
         logger.info("Location Button Pressed")
         let status = CLLocationManager.authorizationStatus()
-        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
+        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
             showAskingLocationPermissionMessage()
-        } else if (CLLocationManager.authorizationStatus() == .notDetermined){
+        } else if (CLLocationManager.authorizationStatus() == .notDetermined) {
             locationManager.requestWhenInUseAuthorization()
             return
         } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways ){
@@ -283,8 +265,8 @@ class WeatherViewController: UIViewController{
     }
     
     @objc func dismissKeyboard() {
-            view.endEditing(true)
-        }
+        view.endEditing(true)
+    }
 }
 
 //MARK: - WeatherManagerDelegate
@@ -360,7 +342,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
         if let clErr = error as? CLError {
             switch clErr {
             case CLError.locationUnknown:
@@ -376,10 +357,18 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
-        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
-            self.locationManager.startUpdatingLocation()
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        if(CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted || !CLLocationManager.locationServicesEnabled()) {
+            showAskingLocationPermissionMessage()
+            clearView()
+            showScreeenWhenNoWeatherHasBeenDisplayed()
+        } else if (CLLocationManager.authorizationStatus() == .notDetermined) {
+            locationManager.requestWhenInUseAuthorization()
+            clearView()
+            showScreeenWhenNoWeatherHasBeenDisplayed()
+            return
+        } else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            locationManager.startUpdatingLocation()
+            locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         }
     }
 }
