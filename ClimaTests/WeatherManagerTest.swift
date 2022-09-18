@@ -16,6 +16,7 @@ class WeatherManagerTest: XCTestCase {
         super.tearDown()
         self.weatherManager = nil
         self.weatherManager?.delegate = nil
+        self.expected = nil
     }
     
     func testFetchWeatherWithCityName() {
@@ -30,7 +31,6 @@ class WeatherManagerTest: XCTestCase {
         waitForExpectations(timeout: 2)
     }
 }
-
 
 extension WeatherManagerTest: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {

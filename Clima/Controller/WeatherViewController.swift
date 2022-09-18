@@ -235,6 +235,7 @@ class WeatherViewController: UIViewController{
     
     private func showErrorMessage() {
         clearView()
+        logger.info("Location unknown")
         self.errorMessage.text = "Sorry, we can not find the location"
         loadingSpinner.stopAnimating()
     }
@@ -275,7 +276,7 @@ class WeatherViewController: UIViewController{
     }
     
     @objc func locationButtonPressed() {
-        logger.debug("Location Button Pressed")
+        logger.info("Location Button Pressed")
         let status = CLLocationManager.authorizationStatus()
         if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()){
             showAskingLocationPermissionMessage()
@@ -328,7 +329,6 @@ extension WeatherViewController: WeatherManagerDelegate {
 extension WeatherViewController: UITextFieldDelegate {
     
     @objc func searchButtonPressed(_ sender: UIButton) {
-        logger.info("Search button pressed \(String(describing: searchTextField.text))")
         self.searchTextField.endEditing(true)
     }
 
@@ -352,6 +352,9 @@ extension WeatherViewController: UITextFieldDelegate {
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
             self.loadingSpinner.startAnimating()
+            if let searchText = searchTextField.text {
+                logger.info("Search button pressed with text: \(searchText)")
+            }
         }
         searchTextField.text = ""
         messageWhenNoWeatherHasBeenDisplayed.text = ""
@@ -377,7 +380,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
                 logger.error("Location unknown")
             case CLError.denied:
                 logger.error("Location denied")
-                
             default:
                 logger.error("Other Core Location error")
             }

@@ -8,7 +8,6 @@ class MockedURLSession: URLSessionProtocol {
     }
 }
 
-
 class MockedURLSessionDataTask: URLSessionDataTaskProtocol {
     private let completion: (Data?, URLResponse?, Error?) -> Void
     
@@ -64,7 +63,6 @@ class MockedURLSessionDataTask: URLSessionDataTaskProtocol {
     
     func resume() {
         let data = respondedJSON.data(using: .utf8)
-        
         completion(data, nil, nil)
     }
 }
