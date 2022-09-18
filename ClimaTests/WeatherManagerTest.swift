@@ -19,8 +19,14 @@ class WeatherManagerTest: XCTestCase {
     }
     
     func testFetchWeatherWithCityName() {
-        self.expected = expectation(description: "Weather is done fetching")
+        self.expected = expectation(description: "Fetching weather by city name is ok")
         self.weatherManager?.fetchWeather(cityName: "testCityName")
+        waitForExpectations(timeout: 2)
+    }
+    
+    func testFetchWeatherWithLocationCoordinates(){
+        self.expected = expectation(description: "Fetching weather by coordinates is ok")
+        self.weatherManager?.fetchWeather(latitude: 41.40338, longitude: 2.17403)
         waitForExpectations(timeout: 2)
     }
 }

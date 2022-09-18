@@ -246,10 +246,6 @@ class WeatherViewController: UIViewController{
     private func configureLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
-            self.locationManager.startUpdatingLocation()
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        }
     }
     
     private func showAskingLocationPermissionMessage() {
@@ -387,6 +383,14 @@ extension WeatherViewController: CLLocationManagerDelegate {
             }
         } else {
             logger.error("Other error: \(error.localizedDescription)")
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        
+        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            self.locationManager.startUpdatingLocation()
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         }
     }
 }
